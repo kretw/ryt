@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{url_for('static', filename='img/lol.png')}}" type="image/png">
+    <title>Конный клуб «Абрикос»</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jura&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/snowFlakes/snow.min.css')}}"/>
+</head>
+<body>
+    <script src="{{url_for('static', filename='css/snowFlakes/Snow.js')}}"></script>
+    <header>
+        <div class="logo">
+            <img src="{{url_for('static', filename='img/lol.png')}}" alt="Логотип Конного клуба «Абрикос»" class="logo-img">
+        </div>
+        <h1 style="font-size: 32px; font-weight: bold;">Конный клуб «Абрикос»</h1>
+        <nav>
+            <div class="text"> 
+                <a href ="about" class="animated-link">О нас</a> 
+                <a href ="services"class="animated-link">Услуги</a> 
+                <a href ="galery"class="animated-link">Галерея</a> 
+                <a href ="news"class="animated-link">Новости</a> 
+                <a href ="recording"class="animated-link">Запись</a> 
+            </div>
+        </nav>
+        <img style="margin-right:50px;" src="{{url_for('static', filename='img/сбоку.gif')}}">
+        <div class="phone">Телефон: +375 29 184-26-11</div>
+    </header>
+
+    <section>
+        <h2>История конного клуба</h2>
+        <p>
+            Конный клуб, расположенный в живописной местности, начал свою историю с небольшой группы энтузиастов, которые объединились ради любви к лошадям. 
+            В самом начале у клуба было всего несколько лошадей, но благодаря упорству и энтузиазму его членов, клуб постепенно рос и развивался.
+            Сначала лошади содержались в арендованных помещениях, но вскоре клубу удалось построить собственную конюшню и манеж. Это стало возможным благодаря совместным 
+            усилиям всех участников, которые не только занимались строительством, но и сами заготавливали корм для лошадей, шили амуницию и создавали реквизит для выступлений.
+        </p>
+
+        <img style="border-radius: 10px; display: block; margin: 0 auto;" src="{{ url_for('static', filename='img/bacr6.jpg') }}" alt="Фотография">
+
+        <p>
+            Со временем клуб стал известен в округе, и к нему начали приезжать люди из разных мест, чтобы научиться верховой езде и принять участие в соревнованиях. 
+            Клуб активно участвовал в городских мероприятиях, устраивал рыцарские турниры и праздничные шествия, что привлекало внимание и интерес к конному спорту.
+            Сегодня конный клуб продолжает свою деятельность, обучая верховой езде и популяризируя конный спорт среди молодежи. Здесь можно не только научиться ездить верхом, 
+            но и принять участие в военно-исторических реконструкциях, парадах и других мероприятиях. Клуб гордится своими достижениями и с оптимизмом смотрит в будущее, 
+            продолжая развиваться и привлекать новых участников.
+        </p>
+    </section>
+
+    <footer>
+        <p>Контактная информация: +375 29 184-26-11</p>
+        <p> 2024 Конный клуб «Абрикос»</p>
+    </footer>
+</body>
+
+</html>

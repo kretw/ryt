@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{url_for('static', filename='img/lol.png')}}" type="image/png">
+    <title>Конный клуб «Абрикос»</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jura&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/snowFlakes/snow.min.css')}}"/>
+</head>
+<body>
+    <script src="{{url_for('static', filename='css/snowFlakes/Snow.js')}}"></script>
+    <header>
+        <div class="logo">
+            <img src="{{url_for('static', filename='img/lol.png')}}" alt="Логотип Конного клуба «Абрикос»" class="logo-img">
+        </div>
+        <h1 style="font-size: 32px; font-weight: bold;">Конный клуб «Абрикос»</h1>
+        <nav>
+            <div class="text"> 
+                <a href ="about" class="animated-link">О нас</a> 
+                <a href ="services"class="animated-link">Услуги</a> 
+                <a href ="galery"class="animated-link">Галерея</a> 
+                <a href ="news"class="animated-link">Новости</a> 
+                <a href ="recording"class="animated-link">Запись</a> 
+            </div>
+        </nav>
+        <img style="margin-right:50px;" src="{{url_for('static', filename='img/сбоку.gif')}}">
+        <div class="phone">Телефон: +375 29 184-26-11</div>
+    </header>
+    <section>
+        <h2>Галерея</h2>
+        <h3>Актуальные фото</h3>
+        <div class="containerimg">
+            <div class="card">
+                <img src="{{ url_for('static', filename='img/2.jpg') }}" alt="Фотография">
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='img/3.jpg') }}" alt="Фотография">
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='img/4.jpg') }}" alt="Фотография">
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='img/5.jpg') }}" alt="Фотография">
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='img/6.jpg') }}" alt="Фотография">
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='img/7.jpg') }}" alt="Фотография">
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='img/8.jpg') }}" alt="Фотография">
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='img/9.jpg') }}" alt="Фотография">
+            </div>
+        </div>
+        <h1></h1>
+        <a href="/photo"><button type="submit">Все фото</button></a>
+        <a href="/video"><button type="button">Все видео</button></a>
+    </section>
+    <footer>
+        <p>Контактная информация: +375 29 184-26-11</p>
+        <p> 2024 Конный клуб «Абрикос»</p>
+    </footer>
+</body>
+</html>

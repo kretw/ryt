@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{url_for('static', filename='img/lol.png')}}" type="image/png">
+    <title>Конный клуб «Абрикос»</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jura&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/snowFlakes/snow.min.css')}}"/>
+</head>
+<body>
+    <script src="{{url_for('static', filename='css/snowFlakes/Snow.js')}}"></script>
+    <header>
+        <div class="logo">
+            <img src="{{url_for('static', filename='img/lol.png')}}" alt="Логотип Конного клуба «Абрикос»" class="logo-img">
+        </div>
+        <h1 style="font-size: 32px; font-weight: bold;">Конный клуб «Абрикос»</h1>
+        <nav>
+            <div class="text"> 
+                <a href ="about" class="animated-link">О нас</a> 
+                <a href ="services"class="animated-link">Услуги</a> 
+                <a href ="galery"class="animated-link">Галерея</a> 
+                <a href ="news"class="animated-link">Новости</a> 
+                <a href ="recording"class="animated-link">Запись</a> 
+            </div>
+        </nav>
+        <img style="margin-right:50px;" src="{{url_for('static', filename='img/сбоку.gif')}}">
+        <div class="phone">Телефон: +375 29 184-26-11</div>
+    </header>
+    <section>
+        <h2 style="font-weight: semi-bold;">О нас</h2>
+        <div class="container">
+            <div class="box1">
+                <p>Наш конный клуб располагается всего в 20 минутах езды от МКАД, в живописном уголке деревни Корма.</p>
+                <p>Здесь, среди зелёных просторов и свежего воздуха, вы сможете насладиться не только общением с замечательными лошадьми, но и спокойствием природы.</p>
+                <p>Окружённые лесами и полями, мы предлагаем уникальную атмосферу, где каждый сможет найти гармонию, независимо от уровня подготовки. Любите ли вы верховую езду или просто хотите расслабиться и насладиться общением с этими благородными животными, наш клуб станет для вас идеальным местом. Приезжайте к нам и откройте для себя мир лошадей и дружеского общения!</p>
+            </div>
+            <div class="box1">
+                <div class="containerimg">
+                    <div class="card">
+                        <img src="{{ url_for('static', filename='img/1.jpg') }}" alt="Фотография клуба">
+                    </div>
+                    <div class="card">
+                        <img src="{{ url_for('static', filename='img/9.jpg') }}" alt="Фотография клуба">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <a href="/history" class="animated-link">История конного клуба</a>
+        </nav>
+    </section>
+    <footer>
+        <p>Контактная информация: +375 29 184-26-11</p>
+        <p> 2024 Конный клуб «Абрикос»</p>
+    </footer>
+</body>
+</html>

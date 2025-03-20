@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{url_for('static', filename='img/lol.png')}}" type="image/png">
+    <title>Конный клуб «Абрикос»</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jura&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/snowFlakes/snow.min.css')}}"/>
+</head>
+<body>
+    <script src="{{url_for('static', filename='css/snowFlakes/Snow.js')}}"></script>
+    <header>
+        <div class="logo">
+            <img src="{{url_for('static', filename='img/lol.png')}}" alt="Логотип Конного клуба «Абрикос»" class="logo-img">
+        </div>
+        <h1 style="font-size: 32px; font-weight: bold;">Конный клуб «Абрикос»</h1>
+        <nav>
+            <div class="text"> 
+                <a href ="about" class="animated-link">О нас</a> 
+                <a href ="services"class="animated-link">Услуги</a> 
+                <a href ="galery"class="animated-link">Галерея</a> 
+                <a href ="news"class="animated-link">Новости</a> 
+                <a href ="recording"class="animated-link">Запись</a> 
+            </div>
+        </nav>
+        <img style="margin-right:50px;" src="{{url_for('static', filename='img/сбоку.gif')}}">
+        <div class="phone">Телефон: +375 29 184-26-11</div>
+    </header>
+    <section>
+        <h2>Запись на тренировку</h2>
+
+        <div id="bookingForm">
+            <div>
+                <label for="date">Дата:</label>
+                <input type="date" name="date" id="date" required>
+
+                <label for="time">Время:</label>
+                <select name="time" id="time" required>
+                    <option value="" disabled selected>Выберите время</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                    <option value="18:00">18:00</option>
+                </select>
+
+                <label for="typework">Тип тренировки:</label>
+                <select name="type" id="typework" required>
+                    <option value="" disabled selected>Выберите тип тренировки</option>
+                    <option value="Индивидуальная">Индивидуальная</option>
+                    <option value="Групповая">Групповая</option>
+                    <option value="Фотосессия">Фотосессия</option>
+                </select>
+
+                <label for="kind">Вид тренировки:</label>
+                <select name="kind" id="kind" required>
+                    <option value="" disabled selected>Выберите вид тренировки</option>
+                    <option value="Занятие на плацу">Занятие на плацу</option>
+                    <option value="Выезд в поля">Выезд в поля</option>
+                    <option value="Конкурная тренировка">Конкурная тренировка</option>
+                    <option value="Прогулка">Прогулка</option>
+                </select>
+
+                <label for="trainer">Тренер:</label>
+                <select id="trainer" name="trainer" required>
+                    <option value="" disabled selected>Выберите тренера</option>
+                    <option value="Катя">Катя</option>
+                    <option value="Вероника">Вероника</option>
+                    <option value="Лера">Лера</option>
+                    <option value="Карина">Карина</option>
+                    <option value="Любого">Любого</option>
+                </select>
+
+                <label for="horse">Выберите лошадь:</label>
+                <select id="horse" name="horse_id" required>
+                    {% for horse in horses %}
+                    <option value="{{ horse.id }}">{{ horse.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="phone">Телефон:</label>
+                <input type="tel" id="phone" name="phone" placeholder="Введите ваш номер" required>
+
+                <script>
+                    document.getElementById('phone').addEventListener('input', function () {
+                        const phoneInput = this.value;
+                        const phonePattern = /^\+375[1-9]\d{8}$/;
+
+                        if (!phonePattern.test(phoneInput)) {
+                            this.setCustomValidity('Введите корректный номер телефона в формате +375XXXXXXXXX.');
+                        } else {
+                            this.setCustomValidity('');
+                        }
+                    });
+                </script>
+
+                <label for="comments">Комментарий:</label>
+                <textarea name="text" id="comments" placeholder="Ваши пожелания" rows="4"></textarea>
+
+                <button class="open-modal offer " type="submit" id="bookSession">Записаться</button>
+                <button class="open-modal" id="viewBookings">Актуальные записи</button>
+            </div>
+        </div>
+
+        <div class="modal" id="viewBookingsModal">
+            <div class="modal-content">
+
+                    <span class="close" data-target="viewBookingsModal">&times;</span>
+                    <h2>Актуальные записи</h2>
+                    <p>Введите номер телефона</p>
+                    <label >Телефон:</label>
+
+                    <input name="current_phone"  class="current_phone" type="tel" placeholder="Введите ваш номер" required>
+                    <button class="open-modal find">Найти</button>
+                    <div class="entries"></div>
+
+                    <button class="open-modal cancel_recording" id="cancelBooking">Отменить запись</button>
+
+            </div>
+        </div>
+
+        <div id="successModal" class="modal">
+            <div class="modal-content">
+              <span class="close" data-target="successModal">&times;</span>
+              <p>Успешно записано!</p>
+            </div>
+          </div>
+          
+          <div id="cancelModal" class="modal">
+            <div class="modal-content">
+              <span class="close" data-target="cancelModal">&times;</span>
+              <p>Запись успешно отменена!</p>
+            </div>
+          </div>
+          
+                <details>
+                    <summary>Что взять с собой на конюшню?</summary>
+                    <p>
+                 Удобные брюки: Лучше всего подойдут специальные бриджи для верховой езды, которые обеспечивают свободу движений и защиту.</p>
+                <p>Термобелье: В холодную погоду термобелье поможет поддерживать комфортную температуру тела.</p>
+                <p>Футболка или рубашка: Лучше выбрать облегающую, но не сковывающую движения.</p>
+                <p>Куртка или ветровка: Для защиты от ветра и холода.</p>
+                <p>Защита для шеи и головы: Шарф или бандана могут быть полезны в прохладную погоду.</p>
+                <p>Удобные ботинки: С твердым носком и небольшим каблуком для предотвращения застревания ноги в стремя.</p>
+                <p>Носки: Лучше всего выбрать носки из денима или термоноски для комфорта.</p>
+                <p>Шлем выдаёт конюшня</p>
+                <p>Так же не забудьте угощения для лошадок и овечек. Лучше всего подойдут сухари, морковка, яблоки, сушки.</p>
+                    </p>
+                </details>
+                </section>
+
+                <footer>
+                    <content>
+                        <p>Контактная информация: +375 29 184-26-11</p>
+                        <p> 2024 Конный клуб «Абрикос»</p>
+                        <a href="/admin">
+                          <button style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Вход для администратора</button>
+                      </a>
+                    </content>
+                </footer>
+            <script>
+               document.querySelector('.offer').addEventListener('click', (event) => {
+  event.preventDefault();
+  let date = document.getElementById('date').value;
+  let time = document.getElementById('time').value;
+  let type_training = document.getElementById('typework').value;
+  let trainer = document.getElementById('trainer').value;
+  let kind = document.getElementById('kind').value;
+  let phone = document.getElementById('phone').value;
+  let comments = document.getElementById('comments').value;
+
+  const url = `http://127.0.0.1:3001/offer?phone=${phone}&date=${date}&time=${time}&type_training=${type_training}&kind=${kind}&trainer=${trainer}&comments=${comments}`;
+  fetch(url).then(response => {
+    if (response.ok) {
+      openModal(document.getElementById('successModal'));
+    }
+   // setTimeout(() => { window.location.reload(); }, 5000);
+  });
+});
+
+document.querySelector('.cancel_recording').addEventListener('click', (event) => {
+  let del = document.querySelector('.for_deleted');
+  let trainer = del.getAttribute('trainer');
+  let date = del.getAttribute('date');
+  let time = del.getAttribute('time');
+  let type_training = del.getAttribute('type_training');
+  let kind = del.getAttribute('kind');
+  let phone = del.getAttribute('phone');
+
+  const url = `http://127.0.0.1:3001/delete?phone=${phone}&date=${date}&time=${time}&type_training=${type_training}&kind=${kind}&trainer=${trainer}`;
+  fetch(url).then(response => {
+    if (response.ok) {
+      openModal(document.getElementById('cancelModal'));
+    }
+    //setTimeout(() => { window.location.reload(); }, 5000);
+  });
+});
+
+document.querySelector('.find').addEventListener('click', () => {
+  let phone = document.querySelector('.current_phone').value;
+  const url = `http://127.0.0.1:3001/current_entries?current_phone=${phone}`;
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      data.forEach((item) => {
+        const trainingItem = document.createElement('div');
+        trainingItem.innerHTML = `<h3>${item.kind}</h3><p>Дата: ${item.date}</p><p>Время: ${item.time}</p><p>Тренер: ${item.trainer}</p><p>Тип тренировки: ${item.type_training}</p><p>Телефон: ${item.phone}</p><hr>`;
+        trainingItem.setAttribute('kind', item.kind);
+        trainingItem.setAttribute('date', item.date);
+        trainingItem.setAttribute('trainer', item.trainer);
+        trainingItem.setAttribute('type_training', item.type_training);
+        trainingItem.setAttribute('phone', item.phone);
+        trainingItem.setAttribute('time', item.time);
+        trainingItem.addEventListener('dblclick', (event) => {
+          event.currentTarget.classList.add('for_deleted');
+        });
+        document.querySelector('.entries').appendChild(trainingItem);
+      });
+    });
+});
+
+document.getElementById('phone').addEventListener('input', function () {
+  const phoneInput = this.value;
+  const phonePattern = /^\+375[1-9]\d{8}$/;
+  if (!phonePattern.test(phoneInput)) {
+    this.setCustomValidity('Введите корректный номер телефона в формате +375XXXXXXXXX.');
+  } else {
+    this.setCustomValidity('');
+  }
+});
+
+const modals = document.querySelectorAll('.modal');
+const openButtons = document.querySelectorAll('.open-modal');
+const closeButtons = document.querySelectorAll('.close');
+
+function openModal(modal) {
+  modal.style.display = 'block';
+}
+
+function closeModal(modal) {
+  modal.style.display = 'none';
+  window.location.reload();
+}
+
+document.getElementById('viewBookings').addEventListener('click', (event) => {
+  document.getElementById('viewBookingsModal').style.display = 'block';
+});
+
+openButtons.forEach(button => {
+  button.onclick = function () {
+    const targetModal = document.getElementById(button.getAttribute('data-target'));
+    openModal(targetModal);
+  };
+});
+
+closeButtons.forEach(button => {
+  button.onclick = function () {
+    const targetModal = document.getElementById(button.getAttribute('data-target'));
+    closeModal(targetModal);
+  };
+});
+
+window.onclick = function (event) {
+  if (event.target.classList.contains('modal')) {
+    closeModal(event.target);
+  }
+};
+
+            </script>
+
+        <script>
+            const today = new Date();
+            const minDate = today.toISOString().split('T')[0];
+
+            const maxDate = new Date(today);
+            maxDate.setDate(today.getDate() + 5);
+            const maxDateString = maxDate.toISOString().split('T')[0];
+
+            document.getElementById('date').setAttribute('min', minDate);
+            document.getElementById('date').setAttribute('max', maxDateString);
+
+            document.getElementById('time').setAttribute('value', '10:00');
+            </script>
+                </body>
+                </html>

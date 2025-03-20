@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{url_for('static', filename='img/lol.png')}}" type="image/png">
+    <title>Конный клуб «Абрикос»</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jura&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/snowFlakes/snow.min.css')}}"/>
+</head>
+<body>
+    <script src="{{url_for('static', filename='css/snowFlakes/Snow.js')}}"></script>
+    <header>
+        <div class="logo">
+            <img src="{{url_for('static', filename='img/lol.png')}}" alt="Логотип Конного клуба «Абрикос»" class="logo-img">
+        </div>
+        <h1 style="font-size: 32px; font-weight: bold;">Конный клуб «Абрикос»</h1>
+        <nav>
+            <div class="text"> 
+                <a href ="about" class="animated-link">О нас</a> 
+                <a href ="services"class="animated-link">Услуги</a> 
+                <a href ="galery"class="animated-link">Галерея</a> 
+                <a href ="news"class="animated-link">Новости</a> 
+                <a href ="recording"class="animated-link">Запись</a> 
+            </div>
+        </nav>
+        <img style="margin-right:50px;" src="{{url_for('static', filename='img/сбоку.gif')}}">
+        <div class="phone">Телефон: +375 29 184-26-11</div>
+    </header>
+<section>
+        <h2>Услуги</h2>
+
+    <div class="image">
+        <img style="border-radius: 10px;" src="{{url_for('static', filename='img/ind.jpg')}}" alt="Индивидуальные занятия" class="responsive-image" >
+        <img style="border-radius: 10px;"src="{{url_for('static', filename='img/group.jpg')}}" alt="Групповые занятия"  class="responsive-image">
+        <img style="border-radius: 10px;" src="{{url_for('static', filename='img/arenda.jpg')}}" alt="Аренда лошади"  class="responsive-image">
+    </div>
+    <div class="container">
+    <div class="box">
+        <h3>Индивидуальные занятия</h3>
+        <p>Это оптимальный вариант для тех, кто хочет
+        получить персонализированный подход.
+        Каждый урок разрабатывается с учётом ваших
+        целей и опыта, что позволяет достичь
+        максимальных результатов в короткие сроки.</p> 
+        <a href="/recording"><img style=width:150px;height:150px;  src="{{url_for('static', filename='img/ind.gif')}}"> </a>
+</div>
+<div class="box">
+        <h3>Групповые занятия</h3>
+        <p>Подходят для тех, кто любит общение 
+        и командный дух. В группах вы сможете 
+        обмениваться опытом с другими любителями 
+        верховой езды,улучшая свои навыки в
+        компании единомышленников. </p>
+        
+        <a href="/recording"><img style=width:150px;height:130px;  src="{{url_for('static', filename='img/групп.gif')}}"> </a>
+        </div>
+        <div class="box">
+        <h3>Аренда лошади</h3>
+        <p>Мы предлагаем аренду лошади для фотосессий,
+        что станет отличным дополнением
+        к вашим фотографиям. Наши лошади прекрасно 
+        подходят для съемок. </p>
+        <a href="/recording"><img style=width:150px;height:130px;  src="{{url_for('static', filename='img/arenda.gif')}}"> </a>
+</div>
+</div>
+</section>
+<footer>
+    <content>
+    <p>Контактная информация: +375 29 184-26-11</p>
+    <p> 2024 Конный клуб «Абрикос»</p>
+    </content>
+</footer>
+</body>
+</html>
