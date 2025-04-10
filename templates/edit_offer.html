@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование Записи</title>
+</head>
+<body>
+    <h1>Редактирование Записи Клиента</h1>
+    <form action="/admin/offers/edit/{{ offer.id }}" method="POST">
+        <label for="phone">Телефон:</label>
+        <input type="text" id="phone" name="phone" value="{{ offer.phone }}" required>
+        <br>
+        <label for="trainer">Тренер:</label>
+        <input type="text" id="trainer" name="trainer" value="{{ offer.trainer }}" required>
+        <br>
+        <label for="date">Дата:</label>
+        <input type="date" id="date" name="date" value="{{ offer.date }}" required>
+        <br>
+        <label for="time">Время:</label>
+        <input type="time" id="time" name="time" value="{{ offer.time }}" required>
+        <br>
+        <label for="kind">Тип:</label>
+        <input type="text" id="kind" name="kind" value="{{ offer.kind }}" required>
+        <br>
+        <label for="type_training">Вид Тренировки:</label>
+        <input type="text" id="type_training" name="type_training" value="{{ offer.type_training }}" required>
+        <br>
+        <label for="comments">Комментарии:</label>
+        <textarea id="comments" name="comments">{{ offer.text }}</textarea>
+        <br>
+        <button type="submit">Сохранить</button>
+        <a href="/admin/panel"><button type="button">Отменить</button></a>
+    </form>
+</body>
+</html>

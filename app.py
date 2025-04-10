@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, send_file
 from flask_sqlalchemy import SQLAlchemy
 import os
 import pandas as pd
@@ -50,14 +50,6 @@ class Horse(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     is_available = db.Column(db.Boolean, default=True)
-
-# Модель мероприятий
-class Event(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    date = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    tags = db.Column(db.String(100), nullable=True)
 
 @app.route('/')
 @app.route('/about', methods=['POST', 'GET'])
@@ -144,23 +136,8 @@ def admin():
 def admin_panel():
     offers = Offer.query.all()
     horses = Horse.query.all()
-    events = Event.query.all()
     trainers = get_trainers()
-    return render_template('admin_panel.html', offers=offers, horses=horses, events=events, trainers=trainers)
-
-# Обновление записи клиента
-@app.route('/admin/offers/edit/<int:offer_id>', methods=['POST'])
-def edit_offer(offer_id):
-    offer = Offer.query.get_or_404(offer_id)
-    offer.phone = request.form['phone']
-    offer.trainer = request.form['trainer']
-    offer.date = request.form['date']
-    offer.time = request.form['time']
-    offer.kind = request.form['kind']
-    offer.type_training = request.form['type_training']
-    offer.text = request.form['comments']
-    db.session.commit()
-    return redirect(url_for('admin_panel'))
+    return render_template('admin_panel.html', offers=offers, horses=horses, trainers=trainers)
 
 # Удаление записи клиента
 @app.route('/admin/offers/delete/<int:offer_id>', methods=['POST'])
@@ -169,48 +146,6 @@ def delete_offer(offer_id):
     db.session.delete(offer)
     db.session.commit()
     return redirect(url_for('admin_panel'))
-
-# Добавление мероприятия
-@app.route('/admin/events/add', methods=['POST'])
-def add_event():
-    name = request.form['name']
-    date = request.form['date']
-    description = request.form['description']
-    tags = request.form['tags']
-    event = Event(name=name, date=date, description=description, tags=tags)
-    db.session.add(event)
-    db.session.commit()
-    return redirect(url_for('admin_panel'))
-
-@app.route('/admin/export', methods=['GET'])
-def export_to_excel():
-    try:
-        # Извлекаем данные из базы
-        offers = Offer.query.all()
-        if not offers:
-            return "Нет данных для экспорта.", 400  # Возвращаем ошибку, если данных нет
-        
-        # Формируем данные
-        data = [{
-            "Phone": offer.phone,
-            "Trainer": offer.trainer,
-            "Date": offer.date,
-            "Time": offer.time,
-            "Kind": offer.kind,
-            "Type of Training": offer.type_training,
-            "Comments": offer.text
-        } for offer in offers]
-
-        # Конвертируем данные в Excel
-        df = pd.DataFrame(data)
-        file_path = os.path.join(os.getcwd(), "client_offers.xlsx")  # Текущая директория
-        df.to_excel(file_path, index=False)
-
-        # Возвращаем файл для скачивания
-        return send_file(file_path, as_attachment=True)
-    except Exception as e:
-        return f"Произошла ошибка: {str(e)}", 500
-
 
 # Фильтрация записей по тренеру
 @app.route('/admin/filter', methods=['POST'])
@@ -232,33 +167,6 @@ if __name__ == '__main__':
             db.session.commit()
     app.run(port=int(os.environ.get("PORT", 3001)))
 
-    # Отображение списка мероприятий в админской панели
-@app.route('/admin/events', methods=['GET'])
-def admin_events():
-    events = Event.query.all()
-    return render_template('admin_events.html', events=events)
-
-# Удаление мероприятия
-@app.route('/admin/events/delete/<int:event_id>', methods=['POST'])
-def delete_event(event_id):
-    event = Event.query.get_or_404(event_id)
-    db.session.delete(event)
-    db.session.commit()
-    return redirect(url_for('admin_events'))
-
-# Изменение мероприятия
-@app.route('/admin/events/edit/<int:event_id>', methods=['GET', 'POST'])
-def edit_event(event_id):
-    event = Event.query.get_or_404(event_id)
-    if request.method == 'POST':
-        event.name = request.form['name']
-        event.date = request.form['date']
-        event.description = request.form['description']
-        event.tags = request.form['tags']
-        db.session.commit()
-        return redirect(url_for('admin_events'))
-    return render_template('edit_event.html', event=event)
-
 # Отображение списка лошадей в админской панели
 @app.route('/admin/horses', methods=['GET'])
 def admin_horses():
@@ -274,15 +182,8 @@ def add_horse():
     db.session.commit()
     return redirect(url_for('admin_horses'))
 
-# Удаление лошади
-@app.route('/admin/horses/delete/<int:horse_id>', methods=['POST'])
-def delete_horse(horse_id):
-    horse = Horse.query.get_or_404(horse_id)
-    db.session.delete(horse)
-    db.session.commit()
-    return redirect(url_for('admin_horses'))
 
-# Изменение информации о лошади
+# Редактирование лошади
 @app.route('/admin/horses/edit/<int:horse_id>', methods=['GET', 'POST'])
 def edit_horse(horse_id):
     horse = Horse.query.get_or_404(horse_id)
@@ -292,3 +193,50 @@ def edit_horse(horse_id):
         db.session.commit()
         return redirect(url_for('admin_horses'))
     return render_template('edit_horse.html', horse=horse)
+
+# Удаление лошади
+@app.route('/admin/horses/delete/<int:horse_id>', methods=['POST'])
+def delete_horse(horse_id):
+    horse = Horse.query.get_or_404(horse_id)
+    db.session.delete(horse)
+    db.session.commit()
+    return redirect(url_for('admin_horses'))
+
+# Редактирование записи клиента
+@app.route('/admin/offers/edit/<int:offer_id>', methods=['GET', 'POST'])
+def edit_offer(offer_id):
+    offer = Offer.query.get_or_404(offer_id)
+    if request.method == 'POST':
+        offer.phone = request.form['phone']
+        offer.trainer = request.form['trainer']
+        offer.date = request.form['date']
+        offer.time = request.form['time']
+        offer.kind = request.form['kind']
+        offer.type_training = request.form['type_training']
+        offer.text = request.form['comments']
+        db.session.commit()
+        return redirect(url_for('admin_panel'))
+    return render_template('edit_offer.html', offer=offer)
+
+# Экспорт данных в Excel
+@app.route('/admin/export', methods=['GET'])
+def export_to_excel():
+    try:
+        offers = Offer.query.all()
+        if not offers:
+            return "Нет данных для экспорта.", 400
+        data = [{
+            "Phone": offer.phone,
+            "Trainer": offer.trainer,
+            "Date": offer.date,
+            "Time": offer.time,
+            "Kind": offer.kind,
+            "Type of Training": offer.type_training,
+            "Comments": offer.text
+        } for offer in offers]
+        df = pd.DataFrame(data)
+        file_path = os.path.join(os.getcwd(), "client_offers.xlsx")
+        df.to_excel(file_path, index=False)
+        return send_file(file_path, as_attachment=True)
+    except Exception as e:
+        return f"Произошла ошибка: {str(e)}", 500

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование Лошади</title>
+</head>
+<body>
+    <h1>Редактирование Лошади</h1>
+    <form action="/admin/horses/edit/{{ horse.id }}" method="POST">
+        <label for="name">Имя лошади:</label>
+        <input type="text" id="name" name="name" value="{{ horse.name }}" required>
+        <br>
+        <label for="is_available">Доступность:</label>
+        <input type="checkbox" id="is_available" name="is_available" {% if horse.is_available %}checked{% endif %}>
+        <br>
+        <button type="submit">Сохранить</button>
+        <a href="/admin/horses"><button type="button">Отменить</button></a>
+    </form>
+</body>
+</html>
